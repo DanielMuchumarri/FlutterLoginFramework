@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1004786171464",
+    "firebase_url": "https://customerlogin-87ba4.firebaseio.com",
+    "project_id": "customerlogin-87ba4",
+    "storage_bucket": "customerlogin-87ba4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004786171464:android:e72737d84381bcce8ee27d",
+        "android_client_info": {
+          "package_name": "com.example.drivers_ticket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004786171464-ubqkqethr75uduf9ev313r9soqdiq3ec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7kBQBXJjTGzJsFjOGcZSxI9YpahSIMVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004786171464-ubqkqethr75uduf9ev313r9soqdiq3ec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
