@@ -3,25 +3,44 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_twitter/flutter_twitter.dart';
+import 'package:local_auth/local_auth.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   final FacebookLogin fbLogin;
   //final FacebookLoginResult rs;
   final FirebaseAuth auth;
   final TwitterLogin twitterLogin;
   //final String fbLogin;
+  final bool wantsTouchId;
 
-  Home({this.fbLogin, this.auth, this.twitterLogin});
+
+  Home({this.fbLogin, this.auth, this.twitterLogin,this.wantsTouchId});
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final LocalAuthentication localAuth = LocalAuthentication();
+
+  @override
+  void initState(){
+    super.initState();
+    if(widget.wantsTouchId){
+      localAuth.authenticateWithBiometrics(localizedReason:'Authenticate to use for signing in next time');
+    }
+  }
+
 
   Future<void> _logOut(context) async {
-    if (fbLogin != null) {
+    if (widget.fbLogin != null) {
       print('Inside facebook logout section');
-      print(await fbLogin.isLoggedIn);
+      print(await widget.fbLogin.isLoggedIn);
       //print(json.encode(auth));
-      await fbLogin.logOut();
-      await auth.signOut();
+      await widget.fbLogin.logOut();
+      await widget.auth.signOut();
       print('Logged out.');
-      bool isLoggedIn = await fbLogin.isLoggedIn;
+      bool isLoggedIn = await widget.fbLogin.isLoggedIn;
       if (isLoggedIn == false) {
         Navigator.pushReplacement(
           context,
@@ -31,16 +50,16 @@ class Home extends StatelessWidget {
         // Navigator.of(context)
         //     .pushReplacementNamed('main');
       }
-      print(await fbLogin.isLoggedIn);
+      print(await widget.fbLogin.isLoggedIn);
       // print(accessToken.token);
       // print(fbLogin.n);
-    } else if (twitterLogin != null) {
+    } else if (widget.twitterLogin != null) {
       print('Inside twitter logout section');
       bool isActive;
-      isActive = await twitterLogin.isSessionActive;
+      isActive = await widget.twitterLogin.isSessionActive;
       print(isActive);
-      await twitterLogin.logOut();
-      isActive = await twitterLogin.isSessionActive;
+      await widget.twitterLogin.logOut();
+      isActive = await widget.twitterLogin.isSessionActive;
       if (isActive == false) {
         Navigator.pushReplacement(
           context,
@@ -49,10 +68,10 @@ class Home extends StatelessWidget {
         );
       }
       print(isActive);
-    } else if (auth != null && twitterLogin == null && fbLogin == null) {
-      auth.signOut();
+    } else if (widget.auth != null && widget.twitterLogin == null && widget.fbLogin == null) {
+      widget.auth.signOut();
 
-      auth.authStateChanges().listen((User user) {
+      widget.auth.authStateChanges().listen((User user) {
         if (user == null) {
           print('User is currently signed out!');
           Navigator.pushReplacement(
@@ -78,6 +97,12 @@ class Home extends StatelessWidget {
         Color.fromRGBO(245, 50, 111, 1.0),
       ],
     ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+
+    if(widget.wantsTouchId){
+
+    }
+
+
     return Material(
         child: SafeArea(
       child: Container(
